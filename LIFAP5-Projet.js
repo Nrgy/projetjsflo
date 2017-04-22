@@ -85,7 +85,6 @@ $(document).ready(function(){
   });
 //Images cliquables dans la gallerie
 
-$("#panel-gallery").on("click", ".col-sm-2", function(element){
 $("#panel-gallery").on("click", ".col-sm-2", function(element){// Utilisation de onclick car récupération des images après le chargement de la page
     var photoName = element.target.alt.split('#');
     var number = photoName[1];
