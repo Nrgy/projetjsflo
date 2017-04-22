@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<html lang="en">
+<head>
+  <title id="titre">MyPhotos Manager (LIFAP5-Projet)</title>
+  <meta charset="UTF-8"/>
+  <style>
+    .brand {height: 25px;}
+  </style>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="  crossorigin="anonymous"></script>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <!-- script de base pour le projet -->
+  <script src="./LIFAP5-Projet.js" type="text/javascript"></script> 
+  <script src="./LIFAP5-Projet-promises.js" type="text/javascript"></script> 
+</head>
+<body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <div class="navbar-brand">
+        <img id="brand-logo" alt="Brand" class="brand" src="./img/logo.svg">
+      </div>
+      <p class="navbar-text">MyPhotos Manager</p>
+      
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gallery's width <span class="caret"></span></a>
+          <ul class="dropdown-menu" id="width-picker">
+            <li id="6"><a href="#">2 by line</a></li>
+            <li id="4"><a href="#">3 by line</a></li>
+            <li id="3"><a href="#">4 by line</a></li>
+            <li id="2"><a href="#">6 by line</a></li>
+            <li id="1"><a href="#">12 by line</a></li>
+          </ul>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+<!--- -->
+
+
+<!-- -->
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-2 sidebar">
+        <ul id="panel-menu" class="nav nav-sidebar list-group">
+          <li id="album-all" class="list-group-item active">All photos</li>
+          <li id="album-keyboard" class="list-group-item">Keyboard</li>
+          <li id="album-composition" class="list-group-item">Composition</li>
+          <li id="album-2017" class="list-group-item">2017</li>
+        </ul>
+
+        <!-- Trigger the modal with a button -->
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#uploadModal">Upload new</button>
+
+        <!-- Modal -->
+        <div id="uploadModal" class="modal fade" role="dialog" style="display: none;">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+              <form class="modal-content" id="upload-form" enctype="multipart/form-data">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">×</button>
+                  <h4 class="modal-title">Upload new photo</h4>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label for="upload-desc">Description:</label>
+                    <input class="form-control" id="upload-desc" name="desc" type="text">
+                  </div>
+                  <div class="form-group">
+                    <label for="upload-albums">Albums:</label>
+                    <input class="form-control" id="upload-albums" name="albums" type="text">
+                  </div>
+                  <div class="form-group">
+                    <label for="upload-file">File:</label>
+                    <input id="upload-file" name="image" type="file">
+                  </div>
+                </div>
+                <div class="modal-footer">
+                <input class="btn btn-default" id="upload-button" data-dismiss="modal" name="submit" value="Upload" type="button">
+                </div>
+              </form>
+          </div>
+        </div>
+        <hr>
+        <!-- Trigger the modal with a button -->
+        <button type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#resetModal">Reset</button>
+
+        <!-- Modal -->
+        <div id="resetModal" class="modal fade" role="dialog">
+          <form class="modal-content" id="reset-form" enctype="multipart/form-data">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">×</button>
+              <h4 class="modal-title">Reset photo collection ?</h4>
+            </div>
+            <div class="modal-footer">
+              <input class="btn btn-default" id="reset-button" data-dismiss="modal" name="submit" value="Reset" type="button">
+            </div>
+          </form>
+        </div>
+      </div> <!-- PANEL col-sm-3 sidebar -->
+      <div class="col-sm-10 main">
+        <h1 class="page-header">MyPhoto Manager</h1>
+        <div id="panel-photo">
+          <!--<img src="./img/0056.jpg"  class="img-responsive" alt="Generic placeholder thumbnail"> -->
+
+          <img src="http://134.214.200.137/images/58d55b08205853730071b5b0/0068.jpg" class="img-responsive" alt="Photo 68">
+          <h4>0068.jpg</h4>
+          <span class="text-muted">Photo 68</span><br>
+          <span class="text-muted">Albums: 'Composition', 'Keyboard'</span><br>
+        
+          <!-- Trigger the modal with a button -->
+          <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#photoModal">Edit</button>
+
+          <!-- Modal -->
+          <div id="photoModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">×</button>
+                  <h4 class="modal-title">Edit photo0068.jpg</h4>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label for="new-desc">Description:</label>
+                    <input class="form-control" id="new-desc" value="Photo 68" type="text">
+                  </div>
+                  <div class="form-group">
+                    <label for="new-name">Albums:</label>
+                    <input class="form-control" id="new-albums" value="composition; keyboard" type="text">
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button id="photo-edit" type="button" class="btn btn-default" data-dismiss="modal">Update</button>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+        </div>
+      </div>
+
+
+
+      
+    </div><!-- row -->
+
+    <h1 class="page-header">Gallery</h1>
+    <div id="panel-gallery"> 
+      <div class="row">
+      </div>
+    </div><!-- panel-gallery --> 
+</body>
+</html>
