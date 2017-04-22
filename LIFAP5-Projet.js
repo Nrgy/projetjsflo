@@ -32,6 +32,8 @@ let albums_onclick = state => id => {
 
 //jquery call for ready
 $(document).ready(function(){
+
+
   downloadPromise(base_url)
   
   let state = {};
@@ -66,6 +68,12 @@ $(document).ready(function(){
       .catch(reason => console.error(reason));
   });
 
+$("#panel-gallery").on("click", ".col-sm-2", function(element){
+    $('#panel-photo').empty();
+    var name = $("#"+ element.target.id).data("name");
+    $('#panel-photo').append('<img src="'+ element.target.src +'" class="img-responsive" alt="Photo 68"><h4>'+ name +'</h4><span class="text-muted">Photo 68</span><br><span class="text-muted">'+ element.target.title +'</span><br>');
+  });
+
   $("#upload-button").click(function() {
     let formElt = document.getElementById("upload-form"); //$("#upload-form")[0];
     uploadPromise(base_url,formElt)
@@ -97,7 +105,7 @@ $(document).ready(function(){
 		image.albums.forEach(function(album){
 				albums += " '" + album + "';"
 			});
-  		  $('#panel-gallery .row').append('<div class="col-sm-2"><img src="http://134.214.200.137/images/' + image._id.$id + '/' + image.name +'" class="img-thumbnail" data-toggle="tooltip" title="' + albums + '" id="photo-' + i +'" alt="' + image.desc + '"><h4>' + image.name +'</h4><span class="text-muted">' + image.desc + '</span></div>');
+  		  $('#panel-gallery .row').append('<div class="col-sm-2"><img src="http://134.214.200.137/images/' + image._id.$id + '/' + image.name +'" class="img-thumbnail" data-name="'+image.name+'" data-toggle="tooltip" title="' + albums + '" id="photo-' + i +'" alt="' + image.desc + '"><h4>' + image.name +'</h4><span class="text-muted">' + image.desc + '</span></div>');
 		i++;
 });
   	console.log(coll); 
