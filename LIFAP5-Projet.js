@@ -55,11 +55,9 @@ $(document).ready(function(){
   $("#" + all_albums_id).click(function(){
     albums_onclick(state)(this.id); //this.id is the selected album's identifier
   });
-  ["all", "keyboard", "composition", "2017"].forEach((x) => 
-    $("#" + album_prefix_id + x).click(function() {
-        albums_onclick(state)(this.id); //bind a closure to the handler
-      })
-  );
+  $("#" + album_prefix_id + "all").click(function() {
+      albums_onclick(state)(this.id); //bind a closure to the handler
+    });
 
   $('#reset-button').click(function() {
     console.log('reset');
@@ -117,6 +115,9 @@ $("#panel-gallery").on("click", ".col-sm-2", function(element){
     console.log(tags);
     tags.forEach(function(tag){
       $('#panel-menu').append('<li id="album-'+ tag +'" class="list-group-item">' + tag +'</li>');
+      $("#" + album_prefix_id + tag).click(function() {
+        albums_onclick(state)(this.id); //bind a closure to the handler
+      });
     });
   	return coll;})
   .catch(reason => console.error(reason));
