@@ -70,9 +70,11 @@ $(document).ready(function(){
 //Images cliquables dans la gallerie
 
 $("#panel-gallery").on("click", ".col-sm-2", function(element){
+    var photoName = element.target.alt.split('#');
+    var number = photoName[1];
     $('#panel-photo').empty();
     var name = $("#"+ element.target.id).data("name");
-    $('#panel-photo').append('<img src="'+ element.target.src +'" class="img-responsive" alt="Photo 68"><h4>'+ name +'</h4><span class="text-muted">Photo 68</span><br><span class="text-muted">'+ element.target.title +'</span><br>');
+    $('#panel-photo').append('<img src="'+ element.target.src +'" class="img-responsive" alt="Photo '+ number +'"><h4>'+ name +'</h4><span class="text-muted">Photo '+ number +'</span><br><span class="text-muted">'+ element.target.title +'</span><br>');
   });
 
   $("#upload-button").click(function() {
@@ -101,15 +103,22 @@ $("#panel-gallery").on("click", ".col-sm-2", function(element){
     downloadPromise(base_url)
   .then(coll => {
 	var i = 1;
+  var tags = new Array();
 	coll.forEach(function(image) {
 		var albums = "Albums:"; 
 		image.albums.forEach(function(album){
 				albums += " '" + album + "';"
+        if(tags.indexOf(album) === -1)
+          tags.push(album);
 			});
   		  $('#panel-gallery .row').append('<div class="col-sm-2"><img src="http://134.214.200.137/images/' + image._id.$id + '/' + image.name +'" class="img-thumbnail" data-name="'+image.name+'" data-toggle="tooltip" title="' + albums + '" id="photo-' + i +'" alt="' + image.desc + '"><h4>' + image.name +'</h4><span class="text-muted">' + image.desc + '</span></div>');
 		i++;
 });
   	console.log(coll); 
+    console.log(tags);
+    tags.forEach(function(tag){
+      $('#panel-menu').append('<li id="album-'+ tag +'" class="list-group-item">' + tag +'</li>');
+    });
   	return coll;})
   .catch(reason => console.error(reason));
 });
