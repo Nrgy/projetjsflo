@@ -17,18 +17,36 @@ const album_prefix_id = "album-";
 /************************************************************** */
 /* albums_onclick */
 let albums_onclick = state => id => {
-  console.log("albums_onclick(", id, ")" );
-
   $("#" + id).toggleClass("active");
+  
+  var selectedMenus = new Array();
+  $('#panel-menu li.active').each(function(menu){selectedMenus.push($(this).html())})
 
+  $('#panel-gallery .row .col-sm-2 img').each(function( image ) {
+  var $that = $(this);
+  if(selectedMenus.length === 0){
+    $(this).parent('.col-sm-2').hide();
+  }
+  if(selectedMenus.indexOf("All photos") === -1)
+  {
+    var shouldBeDisplayed = false;
+    selectedMenus.forEach(function(menu){
+      if($that[0].title.indexOf(menu) !== -1)
+        shouldBeDisplayed = true;
+      });
+    if(shouldBeDisplayed)
+      $that.parent('.col-sm-2').show();
+    else
+      $that.parent('.col-sm-2').hide();
+  }
+  else
+    $(this).parent('.col-sm-2').show();
+});
   return state; 
 }
 /************************************************************** */
 /** MAIN PROGRAM */
 /************************************************************** */
-
-
-
 
 //jquery call for ready
 $(document).ready(function(){
@@ -112,8 +130,6 @@ $("#panel-gallery").on("click", ".col-sm-2", function(element){
   		  $('#panel-gallery .row').append('<div class="col-sm-2"><img src="http://134.214.200.137/images/' + image._id.$id + '/' + image.name +'" class="img-thumbnail" data-name="'+image.name+'" data-toggle="tooltip" title="' + albums + '" id="photo-' + i +'" alt="' + image.desc + '"><h4>' + image.name +'</h4><span class="text-muted">' + image.desc + '</span></div>');
 		i++;
 });
-  	console.log(coll); 
-    console.log(tags);
     tags.forEach(function(tag){
       $('#panel-menu').append('<li id="album-'+ tag +'" class="list-group-item">' + tag +'</li>');
       $("#" + album_prefix_id + tag).click(function() {
