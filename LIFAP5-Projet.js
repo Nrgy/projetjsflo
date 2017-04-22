@@ -65,6 +65,7 @@ $(document).ready(function(){
     resetPromise(base_url, formElt)
       .catch(reason => console.error(reason));
   });
+//Images cliquables dans la gallerie
 
 $("#panel-gallery").on("click", ".col-sm-2", function(element){
     var photoName = element.target.alt.split('#');
