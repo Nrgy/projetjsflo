@@ -113,7 +113,7 @@ $('#photo-edit').on("click", function(){
   var photoToUpload = selectedPhoto;
   photoToUpload.desc = $('#new-desc').val();
   photoToUpload.albums = $('#new-albums').val().split(",");
-  updatePromise(base_url, photoToUpload);
+  updatePromise(base_url, photoToUpload).then(selectedPhoto = photoToUpload).then(downloadPromise(base_url)).then(showSelectedImage(selectedPhoto)).catch(reason => console.error(reason));
 });
 
   $("#upload-button").click(function() {
