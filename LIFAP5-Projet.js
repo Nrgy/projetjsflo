@@ -116,6 +116,26 @@ $('#photo-edit').on("click", function(){
   updatePromise(base_url, photoToUpload).then(selectedPhoto = photoToUpload).then(downloadPromise(base_url)).then(showSelectedImage(selectedPhoto)).catch(reason => console.error(reason));
 });
 
+$('#width-picker li').click(function(element){
+  var id = element.target.id;
+  $('#panel-gallery > div > div').removeClass();
+  if(id == "2"){
+    $('#panel-gallery > div > div').addClass("col-sm-6");
+  }
+  if(id == "3"){
+    $('#panel-gallery > div > div').addClass("col-sm-4");
+  }
+  if(id == "4"){
+    $('#panel-gallery > div > div').addClass("col-sm-3");
+  }
+  if(id == "6"){
+    $('#panel-gallery > div > div').addClass("col-sm-2");
+  }
+  if(id == "12"){
+    $('#panel-gallery > div > div').addClass("col-sm-1");
+  }
+});
+
   $("#upload-button").click(function() {
     let formElt = document.getElementById("upload-form"); //$("#upload-form")[0];
     uploadPromise(base_url,formElt)
