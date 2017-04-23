@@ -11,6 +11,9 @@ const base_img = "http://lifap5.univ-lyon1.fr/images/";
 const all_albums_id = "all-albums";
 const album_prefix_id = "album-";
 
+var selectedPhoto;
+var photos;
+
 
 /************************************************************** */
 /* event managers */
@@ -91,20 +94,25 @@ $("#panel-gallery").on("click", ".col-sm-2", function(element){// Utilisation de
     $('#panel-photo').empty();
     var name = $("#"+ element.target.id).data("name");
     var identifier = $("#"+ element.target.id).data("identifier");
+    var photosFiltered = photos.filter(function( obj ) {return obj._id.$id == identifier;});
+    selectedPhoto = photosFiltered[0];
     $('#panel-photo').append('<img src="'+ element.target.src +'" class="img-responsive" alt="Photo '+ number +'"><h4>'+ name +'</h4><span class="text-muted">Photo '+ number +'</span><br><span class="text-muted">'+ element.target.title +'</span><br><button type="button" id="edit-modal" data-id='+ identifier +' data-name='+ name +' data-photoname="Photo '+ number +'" data-desc='+ photoName+' data-albums=' + element.target.title + ' class="btn btn-info btn-lg">Edit</button>');
   });
 
 $(".container-fluid").on("click","#edit-modal", function(element){
   $('#photoModal').modal();
-  var id = $("#"+ element.target.id).data("id");
-  var name = $("#"+ element.target.id).data("name");
-  var desc = $("#"+ element.target.id).data("desc");
-  var photoname = $("#"+ element.target.id).data("photoname");
-  var albums = $("#"+ element.target.id).data("albums");
-  var selectedPhoto =  {"_id":{"$id": "" + id + ""},"name":"" + name + "","desc":"" + photoname + "","albums":albums}
+
   $('.modal-title').html(selectedPhoto.name);
   $('#new-desc').val(selectedPhoto.desc);
   $('#new-albums').val(selectedPhoto.albums);
+});
+
+$('#photo-edit').on("click", function(){
+  console.log(selectedPhoto);
+  var photoToUpload = selectedPhoto;
+  //photoToUpload.albums = $('#new-albums').val();
+  photoToUpload.desc = $('#new-desc').val();
+  updatePromise(base_url, photoToUpload);
 });
 
   $("#upload-button").click(function() {
@@ -134,6 +142,7 @@ $(".container-fluid").on("click","#edit-modal", function(element){
   .then(coll => {
 	var i = 1;
   var tags = new Array();
+  photos = coll;
 	coll.forEach(function(image) {
 		var albums = "Albums:"; 
 		image.albums.forEach(function(album){
