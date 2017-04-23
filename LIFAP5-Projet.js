@@ -99,17 +99,6 @@ $(document).ready(function(){
   
   let state = {};
   
-  function lignes (coll){
-	  
-	  coll.forEach( x => 
-	  $("#" + x._id.$id).click(function(){
-		  console.log(x);
-		  console.log('Dans on click');
-	  affiche_gallerie(this.id, coll);
-		  
-	  }));
-  }
-
   // associate an update function to each album in the menu
   $("#" + all_albums_id).click(function(){
     albums_onclick(state)(this.id); //this.id is the selected album's identifier
