@@ -87,7 +87,7 @@ $(document).ready(function(){
 //Images cliquables dans la gallerie
 
 
-$("#panel-gallery").on("click", ".col-sm-2", function(element){// Utilisation de onclick car récupération des images après le chargement de la page
+$("#panel-gallery").on("click", ".gallery", function(element){// Utilisation de onclick car récupération des images après le chargement de la page
     var identifier = $("#"+ element.target.id).data("identifier");
     var photosFiltered = photos.filter(function( obj ) {return obj._id.$id == identifier;});
     selectedPhoto = photosFiltered[0];
@@ -120,19 +120,19 @@ $('#width-picker li').click(function(element){
   var id = element.target.id;
   $('#panel-gallery > div > div').removeClass();
   if(id == "2"){
-    $('#panel-gallery > div > div').addClass("col-sm-6");
+    $('#panel-gallery > div > div').addClass("col-sm-6 gallery");
   }
   if(id == "3"){
-    $('#panel-gallery > div > div').addClass("col-sm-4");
+    $('#panel-gallery > div > div').addClass("col-sm-4 gallery");
   }
   if(id == "4"){
-    $('#panel-gallery > div > div').addClass("col-sm-3");
+    $('#panel-gallery > div > div').addClass("col-sm-3 gallery");
   }
   if(id == "6"){
-    $('#panel-gallery > div > div').addClass("col-sm-2");
+    $('#panel-gallery > div > div').addClass("col-sm-2 gallery");
   }
   if(id == "12"){
-    $('#panel-gallery > div > div').addClass("col-sm-1");
+    $('#panel-gallery > div > div').addClass("col-sm-1 gallery");
   }
 });
 
@@ -172,7 +172,7 @@ $('#width-picker li').click(function(element){
         if(tags.indexOf(album) === -1)
           tags.push(album);
 			});
-  		  $('#panel-gallery .row').append('<div class="col-sm-2"><img src="http://134.214.200.137/images/' + image._id.$id + '/' + image.name +'" class="img-thumbnail" data-name="'+image.name+'" data-identifier="' +  image._id.$id + '" data-toggle="tooltip" title="' + albums + '" id="photo-' + i +'" alt="' + image.desc + '"><h4>' + image.name +'</h4><span class="text-muted">' + image.desc + '</span></div>');
+  		  $('#panel-gallery .row').append('<div class="col-sm-2 gallery"><img src="http://134.214.200.137/images/' + image._id.$id + '/' + image.name +'" class="img-thumbnail" data-name="'+image.name+'" data-identifier="' +  image._id.$id + '" data-toggle="tooltip" title="' + albums + '" id="photo-' + i +'" alt="' + image.desc + '"><h4>' + image.name +'</h4><span class="text-muted">' + image.desc + '</span></div>');
 		i++;
 });
     tags.forEach(function(tag){
