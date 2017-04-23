@@ -86,6 +86,7 @@ $(document).ready(function(){
 //Images cliquables dans la gallerie
 
 $("#panel-gallery").on("click", ".col-sm-2", function(element){
+
 $("#panel-gallery").on("click", ".col-sm-2", function(element){// Utilisation de onclick car récupération des images après le chargement de la page
     var photoName = element.target.alt.split('#');
     var number = photoName[1];
@@ -128,6 +129,7 @@ $("#panel-gallery").on("click", ".col-sm-2", function(element){// Utilisation de
         if(tags.indexOf(album) === -1)
           tags.push(album);
 			});
+			
   		  $('#panel-gallery .row').append('<div class="col-sm-2"><img src="http://134.214.200.137/images/' + image._id.$id + '/' + image.name +'" class="img-thumbnail" data-name="'+image.name+'" data-toggle="tooltip" title="' + albums + '" id="photo-' + i +'" alt="' + image.desc + '"><h4>' + image.name +'</h4><span class="text-muted">' + image.desc + '</span></div>');
 		i++;
 });
