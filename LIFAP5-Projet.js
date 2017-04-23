@@ -25,7 +25,7 @@ let albums_onclick = state => id => {
   return state; 
 }
 
-function filterOnTags(){
+function filterOnTags(){// Filtrage des photos par tag et gestion des menus
   var selectedMenus = new Array();
   $('#panel-menu li.active').each(function(menu){selectedMenus.push($(this).html())})
 
@@ -99,7 +99,7 @@ $(document).ready(function(){
   
   let state = {};
   
-  function lignes (coll){
+ /* function lignes (coll){
 	  
 	  coll.forEach( x => 
 	  $("#" + x._id.$id).click(function(){
@@ -108,7 +108,7 @@ $(document).ready(function(){
 	  affiche_gallerie(this.id, coll);
 		  
 	  }));
-  }
+  }*/
 
   // associate an update function to each album in the menu
   $("#" + all_albums_id).click(function(){
@@ -122,7 +122,7 @@ $(document).ready(function(){
     date_filter_onclick(state)(this.id); //this.id is the selected album's identifier
   });
 
-  $('#reset-button').click(function() {
+  $('#reset-button').click(function() {// Reset de la galerie de la photo ici appelle de updatePhotos pour mettre à jour l'interface
     console.log('reset');
     let formElt = $('#reset-form');
     resetPromise(base_url, formElt).then(retour => 
@@ -141,7 +141,7 @@ $("#panel-gallery").on("click", ".gallery", function(element){// Utilisation de 
     showSelectedImage(selectedPhoto);
   });
 
-function showSelectedImage(photo){
+function showSelectedImage(photo){ // Afficher image cliquée dans la gallerie, Update photo met à jour la page 
     $('.modal-title').html(selectedPhoto.name);
     $('#new-desc').val(selectedPhoto.desc);
     $('#new-albums').val(selectedPhoto.albums);
@@ -155,9 +155,9 @@ $(".container-fluid").on("click","#edit-modal", function(element){
   $('#photoModal').modal();
 });
 
-$('#photo-edit').on("click", function(){
+$('#photo-edit').on("click", function(){// Edition de la photo et de ses tags
   var photoToUpload = selectedPhoto;
-  photoToUpload.desc = $('#new-desc').val();
+  photoToUpload.desc = $('#new-desc').val();// On reprend les données qu'on veut met à jour et avc l'update on l'envoie en PUT qui fera la modification sur le serveur
   photoToUpload.albums = $('#new-albums').val().split(",");
 
   updatePromise(base_url, photoToUpload).then(retour => 
@@ -227,7 +227,7 @@ function changeGalleryWidth(){
   }
 };
 
-  $("#upload-button").click(function() {
+  $("#upload-button").click(function() {// Upload d'une nouvelle photo
     let formElt = document.getElementById("upload-form");
     uploadPromise(base_url,formElt).then(retour => 
       {
@@ -266,7 +266,7 @@ function changeGalleryWidth(){
   //use downloadPromise(base_url) for online development
   //staticPromise()
 
-  function updatePhotos(coll){
+  function updatePhotos(coll){// Mise à jour de la page
   var i = 1;
   var tags = new Array();
   var years = new Array();
