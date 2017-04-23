@@ -173,6 +173,7 @@ function sortCollection(ascending){
     return a>b ? -1 : a<b ? 1 : 0;
 });
   updateGallery();
+  filterOnTags();
 }
 
 function updateGallery(){
