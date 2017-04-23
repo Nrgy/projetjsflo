@@ -108,10 +108,9 @@ $(".container-fluid").on("click","#edit-modal", function(element){
 });
 
 $('#photo-edit').on("click", function(){
-  console.log(selectedPhoto);
   var photoToUpload = selectedPhoto;
-  //photoToUpload.albums = $('#new-albums').val();
   photoToUpload.desc = $('#new-desc').val();
+  photoToUpload.albums = $('#new-albums').val().split(",");
   updatePromise(base_url, photoToUpload);
 });
 
