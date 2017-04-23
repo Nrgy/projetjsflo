@@ -21,14 +21,28 @@ var selectedWidth=6;
 /* albums_onclick */
 let albums_onclick = state => id => {
   $("#" + id).toggleClass("active");
-  
+  filterOnTags();
+  return state; 
+}
+
+function filterOnTags(){
   var selectedMenus = new Array();
   $('#panel-menu li.active').each(function(menu){selectedMenus.push($(this).html())})
 
-  $('#panel-gallery .row .col-sm-2 img').each(function( image ) {
+  var selectedYears = new Array();
+  $('#date-menu li.active').each(function(menu){selectedYears.push($(this).html())});
+
+  $('#panel-gallery .row .gallery img').each(function( image ) {
+  var id = $(this)[0].getAttribute('data-identifier');
+  var currentPhotoTable = photos.filter(function( obj ) {return obj._id.$id == id});
+  var currentPhoto = currentPhotoTable[0];
+  var date = new Date(currentPhoto.date);
+  var year = date.getFullYear();
+  year = year.toString();
+  
   var $that = $(this);
   if(selectedMenus.length === 0){
-    $(this).parent('.col-sm-2').hide();
+    $(this).parent('.gallery').hide();
   }
   if(selectedMenus.indexOf("All photos") === -1)
   {
@@ -37,14 +51,40 @@ let albums_onclick = state => id => {
       if($that[0].title.indexOf(menu) !== -1)
         shouldBeDisplayed = true;
       });
-    if(shouldBeDisplayed)
-      $that.parent('.col-sm-2').show();
+    if(shouldBeDisplayed){
+        if(selectedYears.indexOf("All dates") === -1)
+        {
+          if(selectedYears.indexOf(year) !== -1)
+            $that.parent('.gallery').show();
+          else
+            $that.parent('.gallery').hide();
+        }
+        else{
+          $that.parent('.gallery').show();
+        }
+    }
     else
-      $that.parent('.col-sm-2').hide();
+      $that.parent('.gallery').hide();
   }
   else
-    $(this).parent('.col-sm-2').show();
-});
+  {
+    if(selectedYears.indexOf("All dates") === -1)
+    {
+      if(selectedYears.indexOf(year) !== -1)
+        $that.parent('.gallery').show();
+      else
+        $that.parent('.gallery').hide();
+    }
+    else{
+      $that.parent('.gallery').show();
+    }
+  }
+  });
+};
+
+let date_filter_onclick = state => id => {
+  $("#" + id).toggleClass("active");
+  filterOnTags();
   return state; 
 }
 /************************************************************** */
@@ -77,6 +117,10 @@ $(document).ready(function(){
   $("#" + album_prefix_id + "all").click(function() {
       albums_onclick(state)(this.id); //bind a closure to the handler
     });
+
+  $("#date-menu li").click(function(){
+    date_filter_onclick(state)(this.id); //this.id is the selected album's identifier
+  });
 
   $('#reset-button').click(function() {
     console.log('reset');
@@ -204,10 +248,15 @@ function changeGalleryWidth(){
   .then(coll => {
 	var i = 1;
   var tags = new Array();
+  var years = new Array();
   photos = coll;
   showSelectedImage(photos[0]);
 	coll.forEach(function(image) {
-		var albums = "Albums:"; 
+		var albums = "Albums:";
+    var date = new Date(image.date);
+    var year = date.getFullYear();
+    if(years.indexOf(year) === -1)
+      years.push(year); 
 		image.albums.forEach(function(album){
 				albums += " '" + album + "';"
         if(tags.indexOf(album) === -1)
@@ -221,6 +270,13 @@ function changeGalleryWidth(){
       $("#" + album_prefix_id + tag).click(function() {
         albums_onclick(state)(this.id); //bind a closure to the handler
       });
+    });
+
+    years.forEach(function(year){
+       $('#date-menu').append('<li id=' + year + ' class="list-group-item">' + year +'</li>');
+       $("#" + year).click(function() {
+          date_filter_onclick(state)(this.id);
+       });
     });
   	return coll;})
   .catch(reason => console.error(reason));
