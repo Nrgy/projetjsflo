@@ -19,7 +19,7 @@
   <script src="./LIFAP5-Projet.js" type="text/javascript"></script> 
   <script src="./LIFAP5-Projet-promises.js" type="text/javascript"></script> 
 </head>
-<body>
+<body onload="ajust()">
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -149,9 +149,29 @@
 	
 	
 <script>
+function ajust(){
+	var image=document.getElementById('image.id');
+	var parent=image.parentNode;
+	var maxWidth=parent.offsetWidth;
+	var maxHeight=parent.offsetHeight;
+	var ratio=image.width/image.height;
+	if(image.width>maxWidth){
+		var newWidth=maxWidth;
+		var newHeight=maxHeight/ratio;
+		image.width=newWidth;
+		image.height=newHeight;
+	}
+}
+
+
+
+
+
+
+
+
 document.getElementById("panel-menu").addEventListener("mouseover", mouseOver);
 document.getElementById("panel-menu").addEventListener("mouseout", mouseOut);
-
 function mouseOver() {
     document.getElementById("panel-menu").style.color = "red";
 }
@@ -159,7 +179,9 @@ function mouseOver() {
 function mouseOut() {
     document.getElementById("panel-menu").style.color = "black";
 }
+
 </script>
-</script>
+<div style="width:100px;height:200px">
+	<img id="image" src="./img/logo.svg" />
 </body>
 </html>
