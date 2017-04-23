@@ -142,6 +142,9 @@ $("#panel-gallery").on("click", ".gallery", function(element){// Utilisation de 
   });
 
 function showSelectedImage(photo){
+    $('.modal-title').html(selectedPhoto.name);
+    $('#new-desc').val(selectedPhoto.desc);
+    $('#new-albums').val(selectedPhoto.albums);
     $('#panel-photo').empty();
     var photoName = photo.desc.split('#');
     var number = photoName[1];
@@ -150,17 +153,18 @@ function showSelectedImage(photo){
 
 $(".container-fluid").on("click","#edit-modal", function(element){
   $('#photoModal').modal();
-
-  $('.modal-title').html(selectedPhoto.name);
-  $('#new-desc').val(selectedPhoto.desc);
-  $('#new-albums').val(selectedPhoto.albums);
 });
 
 $('#photo-edit').on("click", function(){
   var photoToUpload = selectedPhoto;
   photoToUpload.desc = $('#new-desc').val();
   photoToUpload.albums = $('#new-albums').val().split(",");
-  updatePromise(base_url, photoToUpload).then(selectedPhoto = photoToUpload).then(downloadPromise(base_url)).then(showSelectedImage(selectedPhoto)).catch(reason => console.error(reason));
+
+  updatePromise(base_url, photoToUpload).then(retour => 
+  {
+    downloadPromise(base_url).then(coll => {updatePhotos(coll);})
+    return retour;
+  }).catch(reason => console.error(reason));
 });
 
 $('#filter-date-increase').click(function(e){
@@ -267,7 +271,9 @@ function changeGalleryWidth(){
   var tags = new Array();
   var years = new Array();
   photos = coll;
-  showSelectedImage(photos[0]);
+  if(selectedPhoto == undefined)
+    selectedPhoto = photos[0];
+  showSelectedImage(selectedPhoto);
   removeGalleryPhotos();
   coll.forEach(function(image) {
     var albums = "Albums:";
