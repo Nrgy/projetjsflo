@@ -68,8 +68,6 @@ $(document).ready(function(){
 	  affiche_gallerie(this.id, coll);
 		  
 	  }));
-	  
-
   }
 
   // associate an update function to each album in the menu
@@ -90,15 +88,18 @@ $(document).ready(function(){
 
 
 $("#panel-gallery").on("click", ".col-sm-2", function(element){// Utilisation de onclick car récupération des images après le chargement de la page
-    var photoName = element.target.alt.split('#');
-    var number = photoName[1];
-    $('#panel-photo').empty();
-    var name = $("#"+ element.target.id).data("name");
     var identifier = $("#"+ element.target.id).data("identifier");
     var photosFiltered = photos.filter(function( obj ) {return obj._id.$id == identifier;});
     selectedPhoto = photosFiltered[0];
-    $('#panel-photo').append('<img src="'+ element.target.src +'" class="img-responsive" alt="Photo '+ number +'"><h4>'+ name +'</h4><span class="text-muted">Photo '+ number +'</span><br><span class="text-muted">'+ element.target.title +'</span><br><button type="button" id="edit-modal" data-id='+ identifier +' data-name='+ name +' data-photoname="Photo '+ number +'" data-desc='+ photoName+' data-albums=' + element.target.title + ' class="btn btn-info btn-lg">Edit</button>');
+    showSelectedImage(selectedPhoto);
   });
+
+function showSelectedImage(photo){
+    $('#panel-photo').empty();
+    var photoName = photo.desc.split('#');
+    var number = photoName[1];
+    $('#panel-photo').append('<img src="http://134.214.200.137/images/' + photo._id.$id + '/' + photo.name +'"  class="img-responsive" alt="Photo '+ number +'"><h4>'+ photo.name +'</h4><span class="text-muted">Photo '+ number +'</span><br><span class="text-muted">'+ photo.desc +'</span><br><button type="button" id="edit-modal" class="btn btn-info btn-lg">Edit</button>');
+}
 
 $(".container-fluid").on("click","#edit-modal", function(element){
   $('#photoModal').modal();
@@ -143,6 +144,7 @@ $('#photo-edit').on("click", function(){
 	var i = 1;
   var tags = new Array();
   photos = coll;
+  showSelectedImage(photos[0]);
 	coll.forEach(function(image) {
 		var albums = "Albums:"; 
 		image.albums.forEach(function(album){
