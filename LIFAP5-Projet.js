@@ -99,6 +99,7 @@ $(document).ready(function(){
   
   let state = {};
   
+<<<<<<< HEAD
  /* function lignes (coll){
 	  
 	  coll.forEach( x => 
@@ -110,6 +111,8 @@ $(document).ready(function(){
 	  }));
   }*/
 
+=======
+>>>>>>> 9dd6f08a20f352cb7c75f2a2c7a611f28b6fe13f
   // associate an update function to each album in the menu
   $("#" + all_albums_id).click(function(){
     albums_onclick(state)(this.id); //this.id is the selected album's identifier
@@ -184,6 +187,7 @@ function sortCollection(ascending){
     return a>b ? -1 : a<b ? 1 : 0;
 });
   updateGallery();
+  filterOnTags();
 }
 
 function updateGallery(){
