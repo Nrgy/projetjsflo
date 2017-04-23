@@ -13,7 +13,7 @@ const album_prefix_id = "album-";
 
 var selectedPhoto;
 var photos;
-
+var selectedWidth=6;
 
 /************************************************************** */
 /* event managers */
@@ -139,27 +139,33 @@ function sortCollection(ascending){
     displayGallery(photo, i);
     i++;
   });
+  changeGalleryWidth();
 }
 
 $('#width-picker li').click(function(element){
   var id = element.target.id;
+  selectedWidth = id;
+  changeGalleryWidth();
+});
+
+function changeGalleryWidth(){
   $('#panel-gallery > div > div').removeClass();
-  if(id == "2"){
+  if(selectedWidth == "2"){
     $('#panel-gallery > div > div').addClass("col-sm-6 gallery");
   }
-  if(id == "3"){
+  if(selectedWidth == "3"){
     $('#panel-gallery > div > div').addClass("col-sm-4 gallery");
   }
-  if(id == "4"){
+  if(selectedWidth == "4"){
     $('#panel-gallery > div > div').addClass("col-sm-3 gallery");
   }
-  if(id == "6"){
+  if(selectedWidth == "6"){
     $('#panel-gallery > div > div').addClass("col-sm-2 gallery");
   }
-  if(id == "12"){
+  if(selectedWidth == "12"){
     $('#panel-gallery > div > div').addClass("col-sm-1 gallery");
   }
-});
+};
 
   $("#upload-button").click(function() {
     let formElt = document.getElementById("upload-form"); //$("#upload-form")[0];
